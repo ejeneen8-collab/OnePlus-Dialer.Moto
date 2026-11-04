@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:padding="24dp">
+
+    <!-- Call Status -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="Calling..."
+        android:textColor="#AAAAAA"
+        android:textSize="18sp" />
+
+    <!-- Phone Number / Contact Name -->
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvStatus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Active Call"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <!-- In-Call Actions Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomButtons"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Direct Call Record Button -->
+        <Button
+            android:id="@+id/btnRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#EB0029"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            android:text="Record"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Bottom Action Buttons (Answer / Disconnect) -->
+    <LinearLayout
+        android:id="@+id/bottomButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Answer Button -->
+        <Button
+            android:id="@+id/btnAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#2E7D32"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="12dp"
+            android:text="Answer"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <!-- Hangup / Disconnect Button -->
+        <Button
+            android:id="@+id/btnHangup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#D32F2F"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="12dp"
+            android:text="End Call"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
