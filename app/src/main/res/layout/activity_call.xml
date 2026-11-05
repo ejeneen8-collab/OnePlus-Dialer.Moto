@@ -1,93 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:padding="24dp">
 
-    <!-- Call Status -->
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="Calling..."
-        android:textColor="#AAAAAA"
-        android:textSize="18sp" />
-
-    <!-- Phone Number / Contact Name -->
-    <TextView
-        android:id="@+id/tvNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvStatus"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Active Call"
-        android:textColor="#FFFFFF"
-        android:textSize="28sp"
-        android:textStyle="bold" />
-
-    <!-- In-Call Actions Container -->
+    <!-- Caller Details Section -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bottomButtons"
-        android:layout_marginBottom="60dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <!-- Direct Call Record Button -->
-        <Button
+        <TextView
+            android:id="@+id/tvCallerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calling..."
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCallDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="00:00"
+            android:textColor="#AAAAAA"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- 6-Button In-Call Control Grid -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="2"
+        android:layout_marginBottom="40dp"
+        android:alignmentMode="alignMargins"
+        android:useDefaultMargins="true">
+
+        <!-- Mute Button -->
+        <LinearLayout
+            android:id="@+id/btnMute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivMuteIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/stat_notify_call_mute"
+                app:tint="#FFFFFF" />
+            <TextView
+                android:id="@+id/tvMute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Mute"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Speaker Button -->
+        <LinearLayout
+            android:id="@+id/btnSpeaker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivSpeakerIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/ic_lock_silent_mode_off"
+                app:tint="#FFFFFF" />
+            <TextView
+                android:id="@+id/tvSpeaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Speaker"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Record Button -->
+        <LinearLayout
             android:id="@+id/btnRecord"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#EB0029"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="12dp"
-            android:text="Record"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivRecordIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:tint="#EB0029" />
+            <TextView
+                android:id="@+id/tvRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Record"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
 
-    </LinearLayout>
+        <!-- Keypad Button -->
+        <LinearLayout
+            android:id="@+id/btnKeypad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="#FFFFFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Keypad"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
 
-    <!-- Bottom Action Buttons (Answer / Disconnect) -->
-    <LinearLayout
-        android:id="@+id/bottomButtons"
-        android:layout_width="match_parent"
+        <!-- Hold Button -->
+        <LinearLayout
+            android:id="@+id/btnHold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivHoldIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/ic_media_pause"
+                app:tint="#FFFFFF" />
+            <TextView
+                android:id="@+id/tvHold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Hold"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Add Call Button -->
+        <LinearLayout
+            android:id="@+id/btnAddCall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:drawable/btn_default"
+                android:backgroundTint="#262626"
+                android:padding="14dp"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="#FFFFFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Add call"
+                android:textColor="#DDDDDD"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </GridLayout>
+
+    <!-- End Call Button (OnePlus Red Round Button) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnEndCall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#EB0029"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:fabCustomSize="72dp"
+        app:maxImageSize="32dp"
+        app:tint="#FFFFFF" />
 
-        <!-- Answer Button -->
-        <Button
-            android:id="@+id/btnAnswer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:backgroundTint="#2E7D32"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="12dp"
-            android:text="Answer"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <!-- Hangup / Disconnect Button -->
-        <Button
-            android:id="@+id/btnHangup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#D32F2F"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="12dp"
-            android:text="End Call"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
