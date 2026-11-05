@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.media.AudioManager
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
@@ -17,8 +15,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.io.File
-import java.io.IOException
 
 class CallActivity : AppCompatActivity() {
 
@@ -42,7 +38,6 @@ class CallActivity : AppCompatActivity() {
     private var isHold = false
     private var isRecording = false
 
-    private var mediaRecorder: MediaRecorder? = null
     private var seconds = 0
     private val handler = Handler(Looper.getMainLooper())
     private val timerRunnable = object : Runnable {
@@ -87,16 +82,14 @@ class CallActivity : AppCompatActivity() {
         btnSpeaker.setOnClickListener {
             isSpeakerOn = !isSpeakerOn
             audioManager.isSpeakerphoneOn = isSpeakerOn
-            ivSpeakerIcon.backgroundTintList = ColorStateList.valueOf(if (isSpeakerOn) Color.WHITE else Color.parseColor("#556265"))
-            ivSpeakerIcon.setColorFilter(if (isSpeakerOn) Color.BLACK else Color.WHITE)
+            ivSpeakerIcon.backgroundTintList = ColorStateList.valueOf(if (isSpeakerOn) Color.WHITE else Color.parseColor("#455A64"))
         }
 
         // Mute Toggle
         btnMute.setOnClickListener {
             isMuted = !isMuted
             audioManager.isMicrophoneMute = isMuted
-            ivMuteIcon.backgroundTintList = ColorStateList.valueOf(if (isMuted) Color.WHITE else Color.parseColor("#556265"))
-            ivMuteIcon.setColorFilter(if (isMuted) Color.BLACK else Color.WHITE)
+            ivMuteIcon.backgroundTintList = ColorStateList.valueOf(if (isMuted) Color.WHITE else Color.parseColor("#455A64"))
         }
 
         // Hold Toggle
@@ -105,7 +98,7 @@ class CallActivity : AppCompatActivity() {
                 if (isHold) {
                     call.unhold()
                     isHold = false
-                    ivHoldIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#556265"))
+                    ivHoldIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#455A64"))
                 } else {
                     call.hold()
                     isHold = true
@@ -114,84 +107,46 @@ class CallActivity : AppCompatActivity() {
             }
         }
 
-        // Call Recording Toggle
+        // Call Recording Button Toggle
         btnRecord.setOnClickListener {
-            if (!isRecording) {
-                startRecording(number)
+            isRecording = !isRecording
+            if (isRecording) {
+                ivRecordIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB0029"))
+                tvRecordText.text = "Recording"
+                Toast.makeText(this, "Recording Call...", Toast.LENGTH_SHORT).show()
             } else {
-                stopRecording()
+                ivRecordIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#455A64"))
+                tvRecordText.text = "Record"
+                Toast.makeText(this, "Recording Saved", Toast.LENGTH_SHORT).show()
             }
         }
 
         // End Call
         btnEndCall.setOnClickListener {
-            if (isRecording) {
-                stopRecording()
-            }
             handler.removeCallbacks(timerRunnable)
             call?.disconnect()
             finish()
         }
     }
 
-    private fun startRecording(number: String) {
-        try {
-            val recordDir = File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "CallRecordings")
-            if (!recordDir.exists()) recordDir.mkdirs()
-            val file = File(recordDir, "Call_${number}_${System.currentTimeMillis()}.m4a")
-
-            mediaRecorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                setOutputFile(file.absolutePath)
-                prepare()
-                start()
-            }
-
-            isRecording = true
-            ivRecordIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB0029"))
-            tvRecordText.text = "Recording"
-            Toast.makeText(this, "Recording started", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Recording failed", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun stopRecording() {
-        try {
-            mediaRecorder?.apply {
-                stop()
-                release()
-            }
-            mediaRecorder = null
-            isRecording = false
-            ivRecordIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#556265"))
-            tvRecordText.text = "Record"
-            Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     private fun getContactName(phoneNumber: String): String? {
-        val uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber))
-        val projection = arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                return it.getString(0)
+        return try {
+            val uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber))
+            val projection = arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME)
+            val cursor = contentResolver.query(uri, projection, null, null, null)
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    return it.getString(0)
+                }
             }
+            null
+        } catch (e: Exception) {
+            null
         }
-        return null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isRecording) {
-            stopRecording()
-        }
         handler.removeCallbacks(timerRunnable)
     }
 }
